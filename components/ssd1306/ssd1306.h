@@ -68,8 +68,8 @@ Usage:
 #define OLED_CMD_ACTIVE_SCROLL          0x2F
 #define OLED_CMD_VERTICAL               0xA3
 
-#define I2C_ADDRESS 0x3C
-#define SPI_ADDRESS 0xFF
+#define I2CAddress 0x3C
+#define SPIAddress 0xFF
 
 typedef enum {
 	SCROLL_RIGHT = 1,
@@ -114,11 +114,14 @@ void ssd1306_set_buffer(SSD1306_t * dev, uint8_t * buffer);
 void ssd1306_get_buffer(SSD1306_t * dev, uint8_t * buffer);
 void ssd1306_display_image(SSD1306_t * dev, int page, int seg, uint8_t * images, int width);
 void ssd1306_display_text(SSD1306_t * dev, int page, char * text, int text_len, bool invert);
+void ssd1306_display_text_with_value(SSD1306_t * dev, int page, char * text, int text_len, char * value, int value_len, bool invert);
 void ssd1306_display_text_x3(SSD1306_t * dev, int page, char * text, int text_len, bool invert);
+void ssd1306_display_text_x2(SSD1306_t * dev, int page, char * text, int text_len, bool invert);
 void ssd1306_clear_screen(SSD1306_t * dev, bool invert);
 void ssd1306_clear_line(SSD1306_t * dev, int page, bool invert);
 void ssd1306_contrast(SSD1306_t * dev, int contrast);
 void ssd1306_software_scroll(SSD1306_t * dev, int start, int end);
+void ssd1306_hor_scroll(SSD1306_t *dev, int line, bool left_scroll, int speed, const char *text, int text_len, bool invert);
 void ssd1306_scroll_text(SSD1306_t * dev, char * text, int text_len, bool invert);
 void ssd1306_scroll_clear(SSD1306_t * dev);
 void ssd1306_hardware_scroll(SSD1306_t * dev, ssd1306_scroll_type_t scroll);
@@ -134,9 +137,6 @@ void ssd1306_fadeout(SSD1306_t * dev);
 void ssd1306_dump(SSD1306_t dev);
 void ssd1306_dump_page(SSD1306_t * dev, int page, int seg);
 
-#if CONFIG_SPI_INTERFACE
-void spi_clock_speed(int speed);
-#endif
 void i2c_master_init(SSD1306_t * dev, int16_t sda, int16_t scl, int16_t reset);
 void i2c_init(SSD1306_t * dev, int width, int height);
 void i2c_display_image(SSD1306_t * dev, int page, int seg, uint8_t * images, int width);
